@@ -66,7 +66,11 @@ class VercelInstallCommand extends Command
             "env"=>[
                 "APP_ENV"=>"prod",
             ],
-            "routes"=> [
+            "routes"=> [ 
+                [ 
+                    "src"=> "/(assets)/(.*)$",
+                    "dest"=> "\/api\/assets.php?path=\/$2" 
+                ],
                 [ 
                     "src"=> "/(.*)",
                     "dest"=> "/api/index.php" 
