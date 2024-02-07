@@ -1,5 +1,5 @@
 {
-    "name": "nakato53/symfony-vercel",
+    "name": "nakato53/symfony-vercel-bundle",
     "description": "Install vercel runtime for Symfony",
     "type": "symfony-bundle",
     "require": {
