@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+        
+        <services>
+            <service id="nakato53.versel.vercelinstallcommand" class="Nakato53\Vercel\Command\VercelInstallCommand">
+                <tag name="console.command" command="vercel:install" />
+                <argument>%kernel.project_dir%</argument>
+            </service>
+            
+            <service id="nakato53.versel.vercelservercommand" class="Nakato53\Vercel\Command\VercelServerCommand">
+                <tag name="console.command" command="vercel:server" />
+                <argument>%kernel.project_dir%</argument>
+            </service>
+        </services>
+</container>
