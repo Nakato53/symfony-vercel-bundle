@@ -82,6 +82,7 @@ class VercelInstallCommand extends Command
         
         if($filesystem->exists($this->rootDirectory. '/api')){
             $io->error('A /api already exist, Vercel require a /api directory, please remove it');
+            return 1;
         }else{
             try {
                 $filesystem->mkdir($this->rootDirectory . '/api');
