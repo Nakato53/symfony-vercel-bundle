@@ -1,4 +1,5 @@
 <?php
+
     $file = __DIR__ . '/../public/' . $_SERVER['SCRIPT_NAME'];
 
     $path_parts = pathinfo($file);

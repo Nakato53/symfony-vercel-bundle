@@ -90,7 +90,7 @@ class VercelInstallCommand extends Command
         }else{
             try {
                 $filesystem->mkdir($this->rootDirectory . '/api');
-                $filesystem->copy($this->rootDirectory.'/public/index.php',$this->rootDirectory . '/api/index.php', true);
+                $filesystem->copy(__DIR__ . '/../../tocopy/index.php',$this->rootDirectory . '/api/index.php', true);
                 $filesystem->copy(__DIR__ . '/../../tocopy/assets.php',$this->rootDirectory . '/api/assets.php', true);
             } catch (IOExceptionInterface $exception) {
                 echo "An error occurred while creating your directory at ".$exception->getPath();
@@ -113,7 +113,8 @@ class VercelInstallCommand extends Command
         }else{
             $composerJson["scripts"]["vercel"]=[
                         "@php bin/console cache:clear --env=prod",
-                        "@php bin/console assets:install public --env=prod"
+                        "@php bin/console assets:install public --env=prod",
+                        "@php bin/console asset-map:compile --env=prod"
             ];
             $composerJsonEncoded = json_encode($composerJson,JSON_PRETTY_PRINT);
             $filesystem->dumpFile($this->rootDirectory.'/composer.json', $composerJsonEncoded);
