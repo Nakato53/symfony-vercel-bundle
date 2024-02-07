@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 #[AsCommand('vercel:install')]
 class VercelInstallCommand extends Command
@@ -78,30 +78,41 @@ class VercelInstallCommand extends Command
         $filesystem->dumpFile($this->rootDirectory.'/vercel.json', $vercelJsonEncoded);
 
         $io->success('Generate vercel.json file successfully for PHP '.$phpversion);
+
+        
+        try {
+            $filesystem->symlink($this->rootDirectory.'/public',$this->rootDirectory . '/api', true);
+        } catch (IOExceptionInterface $exception) {
+            echo "An error occurred while creating your directory at ".$exception->getPath();
+        }
+
+
+        $io->success('Creating API for Vercel Lambda Runtime : OK');
         
         
-        $io->writeln('Update composer.json file');
+        $io->writeln(['','','Update composer.json file']);
         $composerJson = json_decode(file_get_contents($this->rootDirectory.'/composer.json'),true);
 
         if(isset($composerJson["scripts"]) && isset($composerJson["scripts"]["vercel"])){
             $io->warning([
                 'Looks like vercel scripts already exist in composer.json file',
-                'please check "@php bin/console vercel:server --env=prod" is set'
+                'please check "@php bin/console vercel:server --env=prod" is set',
+                'Add any script you have to run during vercel deployment'
                 ]);
         }else{
             $composerJson["scripts"]["vercel"]=[
-                        "@php bin/console vercel:server --env=prod",
                         "@php bin/console cache:clear --env=prod",
                         "@php bin/console assets:install public --env=prod"
             ];
             $composerJsonEncoded = json_encode($composerJson,JSON_PRETTY_PRINT);
             $filesystem->dumpFile($this->rootDirectory.'/composer.json', $composerJsonEncoded);
-            $io->success('Updated composer.json with vercel scripts');
+            $io->success(['Updated composer.json with vercel scripts','Add any script you have to run during vercel deployment']);
         }
         
 
         
-        $io->writeln('You can now set your env variable inside vercel.json file');
+        
+        $io->writeln(['','','You can now set your env variable inside vercel.json file']);
         $io->warning('Avoid any sensible data inside vercel.json file, use vercel setting on website to set private env variable');
 
         return 1;

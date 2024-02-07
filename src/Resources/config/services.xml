@@ -9,10 +9,5 @@
                 <tag name="console.command" command="vercel:install" />
                 <argument>%kernel.project_dir%</argument>
             </service>
-            
-            <service id="nakato53.versel.vercelservercommand" class="Nakato53\Vercel\Command\VercelServerCommand">
-                <tag name="console.command" command="vercel:server" />
-                <argument>%kernel.project_dir%</argument>
-            </service>
         </services>
 </container>
