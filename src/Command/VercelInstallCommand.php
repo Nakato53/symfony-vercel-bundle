@@ -80,10 +80,16 @@ class VercelInstallCommand extends Command
         $io->success('Generate vercel.json file successfully for PHP '.$phpversion);
 
         
-        try {
-            $filesystem->symlink($this->rootDirectory.'/public',$this->rootDirectory . '/api', true);
-        } catch (IOExceptionInterface $exception) {
-            echo "An error occurred while creating your directory at ".$exception->getPath();
+        if($filesystem->exists($this->rootDirectory. '/api')){
+            $io->error('A /api already exist, Vercel require a /api directory, please remove it');
+        }else{
+            try {
+                $filesystem->mkdir($this->rootDirectory . '/api');
+                $filesystem->copy($this->rootDirectory.'/public/index.php',$this->rootDirectory . '/api/index.php', true);
+                $filesystem->copy(__DIR__ . '/../../tocopy/assets.php',$this->rootDirectory . '/api/assets.php', true);
+            } catch (IOExceptionInterface $exception) {
+                echo "An error occurred while creating your directory at ".$exception->getPath();
+            }
         }
 
 
