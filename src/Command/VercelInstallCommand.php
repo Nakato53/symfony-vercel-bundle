@@ -69,7 +69,7 @@ class VercelInstallCommand extends Command
             "routes"=> [ 
                 [ 
                     "src"=> "/(assets)/(.*)$",
-                    "dest"=> "\/api\/assets.php?path=\/$2" 
+                    "dest"=> "/api/assets.php?path=$2" 
                 ],
                 [ 
                     "src"=> "/(.*)",
