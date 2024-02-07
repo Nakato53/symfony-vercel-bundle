@@ -29,5 +29,12 @@ In this file you should add your environnement variables. Becareful, this file i
 ### composer.json
 In the scripts/vercel parts, you can add any script you need to use during the deployment of your application. You can use this part to run migrations.
 
+If using assetmapper, you should add this script to compile your assets :
+
+```bash
+"@php bin\/console asset-map:compile --env=prod"
+```
+            
+
 ## Deploy
 You just have to create a project on Vercel, and link it to your git repository. On each push , you will trigger an automatic deployment
